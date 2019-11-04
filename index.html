@@ -8,15 +8,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link href="index.css" rel="stylesheet">
-
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 
 <body>
   <div id="my_dataviz"></div>
+  <div id="input-panel">
+    <div id="major-size-input">
+        <label for="volume">Major Size</label>
+        <input type="range" min="0" max="4000" value="0" class="slider" step="10" onchange="updateMajorSizeInput(this.value)">
+        <input type="text" id="textMajorSize" value="">
+    </div>
+    <div id="median-salary-input">
+        <label for="volume">Median Salary</label>
+        <input type="range" min="0" max="110000" value="0" class="slider" step="10" onchange="updateMedianSalaryInput(this.value)">
+        <input type="text" id="textMedianSalary" value="">
+    </div>
+    <div id="share-women-input">
+        <label for="volume">Share Women</label>
+        <input type="text" onchange="">
+        <input type="text" >
+    </div>
+    <div class="custom-control custom-checkbox" id="filter-box">
+        <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
+        <label class="custom-control-label" for="defaultUnchecked">Default unchecked</label>
+    </div>
+  </div>
   <script src="https://d3js.org/d3.v5.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script src="index.js"></script>
   <script>
+    function updateMajorSizeInput(val) {
+          document.getElementById('textMajorSize').value=val; 
+        }
+    function updateMedianSalaryInput(val) {
+      document.getElementById('textMedianSalary').value=val; 
+    }
+    function generateFilters(majorGroup) {
+      var filterBox = document.getElementById("filter-box");
+      // majorGroup.map(function(g) {
+      //   var newCheckboxItem = document.createElement("input").setAttribute("type", "checkbox")
+      //   filterBox.append(newCheckboxItem);
+      // })
+      majorGroup.map( x =>
+        filterBox.innerHTML = filterBox.innerHTML + `<label class="custom-control-label" for="defaultUnchecked">${x}</label>`
+      )
+    }
+
   // set the dimensions and margins of the graph
 var margin = {top: 10, right: 30, bottom: 30, left: 60},
     width = 460 - margin.left - margin.right,
@@ -31,8 +69,13 @@ var svg = d3.select("#my_dataviz")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
 
+var majorCategories = ["Enginerring", "Computers and Mathematics", "Industrial Arts & Consumer Services", "Agriculture & Antural Resources", "Business", "Law & Public Policy",
+                        "Physica Sciences", "Social Science", "Biology & LIfe Science", "Arts", "Humanities & Liberal Arts", "Communication s& Journalism", "Education", "Interdisciplinary",
+                        "Psychology & Social Work", "Health"]
 //Read the data
 d3.csv("recent-grads.csv").then(function(data) {
+  console.log(data)
+  generateFilters(majorCategories);
 
   // Add X axis
   var x = d3.scaleLinear()
