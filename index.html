@@ -9,42 +9,86 @@
 
   <link href="index.css" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=DM+Sans|Raleway:400,500,600&display=swap" rel="stylesheet">
 
   <style>
-  div.tooltip {	
-    position: absolute;			
-    text-align: center;			
-    width: 120px;					
-    height: 50px;					
-    padding: 2px;				
-    font: 12px sans-serif;		
-    background: lightsteelblue;	
-    border: 0px;		
-    border-radius: 8px;			
-    pointer-events: none;			
-}
+    div.tooltip {	
+      position: absolute;			
+      text-align: center;			
+      width: 150px;					
+      height: 125px;					
+      padding: 5px;				
+      font: 13px sans-serif;		
+      background: #FFA69E;	
+      border: 0px;		
+      border-radius: 8px;			
+      pointer-events: none;		
+      font-family: 'Raleway', sans-serif;	
+    }
+
+    body {
+      background-color: #F8F1E5;
+      font-family: 'Raleway', sans-serif;
+      font-weight: 500;
+    }
+
+    header {
+      margin: auto;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    #container {
+      display: flex;
+      padding-left: 80px;
+      padding-right: 80px;
+    }
+
+    #input-panel {
+      border: 1px solid black;
+      margin: 20px;
+      padding: 15px;
+      margin-left: 100px;
+      font-size: 13px;
+    }
+
+    #my_dataviz {
+      margin-top: 25px;
+    }
+
+    .filter-name {
+      margin-bottom: -10px;
+    }
   </style>
 </head>
 
 <body>
-  <div id="my_dataviz"></div>
-  <div id="input-panel">
-    <div id="major-size-input">
-        <label for="volume">Major Size</label>
-        <input id='major-size-min' defaultValue='' name="major-size-min" type="number" onchange="">
-        <input id='major-size-max' defaultValue='' name="major-size-max" type="number" >
-    </div>
-    <div id="median-salary-input">
-        <label for="volume">Median Salary</label>
-        <input id='median-salary-min' name="median-salary-min" type="range" min="0" max="110000" value="0" class="slider" step="10" onchange="updateMedianSalaryInput(this.value)">
-        <input type="number" id="textMedianSalary" value="">
-    </div>
-    <div id="share-women-input">
-        <label for="volume">Share Women</label>
-        <input id='share-women-min' name="share-women-min" type="number" onchange="">
-        <input id='share-women-max' name="share-women-max" type="number" >
-    </div>
-    <div class="custom-control custom-checkbox" id="filter-box">
+    <header>
+      <h1>Whatever header we want</h1>
+      <h4>by Anna Deng and Keren Park</h4>
+      <p>description</p>
+    </header>
+  <div id='container'>
+    <div id="my_dataviz"></div>
+    <div id="input-panel">
+      <div id="major-size-input">
+          <label for="volume">Major Size</label>
+          <input id='major-size-min' defaultValue='' name="major-size-min" type="number" onchange="">
+          <input id='major-size-max' defaultValue='' name="major-size-max" type="number" >
+      </div>
+      <div id="median-salary-input">
+          <label for="volume">Median Salary</label>
+          <input id='median-salary-min' name="median-salary-min" type="range" min="0" max="110000" value="0" class="slider" step="10" onchange="updateMedianSalaryInput(this.value)">
+          <input type="number" id="textMedianSalary" value="">
+      </div>
+      <div id="share-women-input">
+          <label for="volume">Share Women</label>
+          <input id='share-women-min' name="share-women-min" type="number" onchange="">
+          <input id='share-women-max' name="share-women-max" type="number" >
+      </div>
+      <p class='filter-name'>Major categories:</p>
+      <div class="custom-control custom-checkbox" id="filter-box">
+      </div>
     </div>
   </div>
   <script src="https://d3js.org/d3.v5.js"></script>
@@ -69,8 +113,8 @@
 
   // set the dimensions and margins of the graph
 var margin = {top: 10, right: 30, bottom: 30, left: 60},
-    width = 500 - margin.left - margin.right,
-    height = 434 - margin.top - margin.bottom;
+    width = 600 - margin.left - margin.right,
+    height = 521 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
 var svg = d3.select("#my_dataviz")
@@ -112,7 +156,7 @@ d3.csv("recent-grads.csv").then(function(data) {
 
   // Add X axis
   var x = d3.scaleLinear()
-    .domain([0, 1])
+    .domain([0, .22])
     .range([ 0, width ]);
   svg.append("g")
     .attr("transform", "translate(0," + height + ")")
@@ -131,19 +175,27 @@ d3.csv("recent-grads.csv").then(function(data) {
     .data(data)
     .enter()
     .append("circle")
-      .attr("cx", function (d) { return x(d.ShareWomen); } )
+      .attr("cx", function (d) { return x(d.Unemployment_rate); } )
       .attr("cy", function (d) { return y(d.Median); } )
-      .attr("r", 2.5)
-      .style("fill", "#dddddd")
-      .on("mouseover", function(d) {		
+      .attr("r", 4)
+      .style("fill", "#C6C6D3")
+      .on("mouseover", function(d) {
+        d3.select(this)
+          .attr("r", 4.5)
+          .style("stroke", "#FFA69E")
+          .style("fill", "#C6C6D3");;		
             div.transition()		
                 .duration(200)		
                 .style("opacity", .9);		
-            div.html(d.Major + "<br/>"  + d.Median)	
+            div.html(d.Major + "<br/> <br />"  + "Median Salary: " + d.Median)	
                 .style("left", (d3.event.pageX) + "px")		
                 .style("top", (d3.event.pageY - 28) + "px");	
-            })					
-        .on("mouseout", function(d) {		
+            })
+        .on("mouseout", function(d) {	
+          d3.select(this)
+            .attr("r", 4)
+            .style("stroke", "none")
+            .style("fill", "#C6C6D3");			
             div.transition()		
                 .duration(500)		
                 .style("opacity", 0);
