@@ -89,7 +89,7 @@ var majorSizeSelectedMax = 393735;
 var medianSalarySelected = 0;
 var shareWomenSelectedMin = 0;
 var shareWomenSelectedMax = .97;
-var majorCategoriesSelected = '';
+var majorCategoriesSelected = [];
 //Read the data
 d3.csv("recent-grads.csv").then(function(data) {
   console.log(data)
@@ -141,32 +141,34 @@ d3.csv("recent-grads.csv").then(function(data) {
 
   
     d3.selectAll("[name=major-size-min]").on("change", function() {
+      majorSizeSelectedMin = parseInt(this.value);
+      if (this.value == '') {
+        majorSizeSelectedMin = 0;
+      }
       console.log('major min');
       svg.selectAll("circle").style("fill", "#dddddd")
-      majorSizeSelectedMin = parseInt(this.value);
       svg.selectAll("circle").filter(function(d) {
         var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
           (d.Median >= medianSalarySelected) &&
           (d.ShareWomen >= shareWomenSelectedMin && d.ShareWomen <= shareWomenSelectedMax) &&
-          (majorCategoriesSelected == '' || d.Major_category == majorCategoriesSelected));
-        // display = isHighlighted ? "#fcba03" : "#dddddd";
-        // console.log(isHighlighted);
-        // console.log(display);
+          (majorCategoriesSelected.length == 0 || d.Major_category == majorCategoriesSelected));
         return isHighlighted;
       })
       .style("fill", "#fcba03");
-      // console.log("outside" + display);
     })
     
     d3.selectAll("[name=major-size-max]").on("change", function() {
-      console.log('major max');
-      svg.selectAll("circle").style("fill", "#dddddd")
       majorSizeSelectedMax = parseInt(this.value);
+      console.log(this.value == '');
+      if (this.value == '') {
+        majorSizeSelectedMax = 393735;
+      }
+      svg.selectAll("circle").style("fill", "#dddddd")
       svg.selectAll("circle").filter(function(d) {
         var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
           (d.Median >= medianSalarySelected) &&
           (d.ShareWomen >= shareWomenSelectedMin && d.ShareWomen <= shareWomenSelectedMax) &&
-          (majorCategoriesSelected == '' || d.Major_category == majorCategoriesSelected));
+          (majorCategoriesSelected.length == 0 || d.Major_category == majorCategoriesSelected));
         display = isHighlighted ? "#fcba03" : "#dddddd";
         return (isHighlighted)
       })
@@ -174,14 +176,14 @@ d3.csv("recent-grads.csv").then(function(data) {
     })
 
     d3.selectAll("[name=median-salary-min]").on("change", function() {
+      medianSalarySelected = parseInt(this.value);
       svg.selectAll("circle").style("fill", "#dddddd")
       console.log('median');
-      medianSalarySelected = parseInt(this.value);
       svg.selectAll("circle").filter(function(d) {
         var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
           (d.Median >= medianSalarySelected) &&
           (d.ShareWomen >= shareWomenSelectedMin && d.ShareWomen <= shareWomenSelectedMax) &&
-          (majorCategoriesSelected == '' || d.Major_category == majorCategoriesSelected));
+          (majorCategoriesSelected.length == 0 || d.Major_category == majorCategoriesSelected));
         display = isHighlighted ? "#fcba03" : "#dddddd";
         return (isHighlighted)
       })
@@ -189,14 +191,17 @@ d3.csv("recent-grads.csv").then(function(data) {
     })
 
     d3.selectAll("[name=share-women-min]").on("change", function() {
+      shareWomenSelectedMin = parseFloat(this.value);
+      if (this.value == '') {
+        shareWomenSelectedMin = 0;
+      }
       svg.selectAll("circle").style("fill", "#dddddd")
-      console.log('women min');
-      shareWomenSelectedMin = parseInt(this.value);
+      console.log('women min' + shareWomenSelectedMin);
       svg.selectAll("circle").filter(function(d) {
         var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
           (d.Median >= medianSalarySelected) &&
           (d.ShareWomen >= shareWomenSelectedMin && d.ShareWomen <= shareWomenSelectedMax) &&
-          (majorCategoriesSelected == '' || d.Major_category == majorCategoriesSelected));
+          (majorCategoriesSelected.length == 0 || d.Major_category == majorCategoriesSelected));
         display = isHighlighted ? "#fcba03" : "#dddddd";
         return (isHighlighted)
       })
@@ -204,14 +209,17 @@ d3.csv("recent-grads.csv").then(function(data) {
     })
 
     d3.selectAll("[name=share-women-max]").on("change", function() {
+      shareWomenSelectedMax = parseFloat(this.value);
+      if (this.value == '') {
+        shareWomenSelectedMax = .97;
+      }
       svg.selectAll("circle").style("fill", "#dddddd")
       console.log('women max');
-      shareWomenSelectedMax = parseInt(this.value);
       svg.selectAll("circle").filter(function(d) {
         var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
           (d.Median >= medianSalarySelected) &&
           (d.ShareWomen >= shareWomenSelectedMin && d.ShareWomen <= shareWomenSelectedMax) &&
-          (majorCategoriesSelected == '' || d.Major_category == majorCategoriesSelected));
+          (majorCategoriesSelected.length == 0 || d.Major_category == majorCategoriesSelected));
         display = isHighlighted ? "#fcba03" : "#dddddd";
         return (isHighlighted)
       })
@@ -219,14 +227,22 @@ d3.csv("recent-grads.csv").then(function(data) {
     })
 
     d3.selectAll("[name=major-category]").on("change", function() {
+      if (majorCategoriesSelected.includes(this.value)) {
+        var index = majorCategoriesSelected.indexOf(this.value);
+        if (index > -1) {
+          majorCategoriesSelected.splice(index, 1);
+        }
+      } else {
+        majorCategoriesSelected.push(this.value);
+      }
       svg.selectAll("circle").style("fill", "#dddddd")
       console.log('major');
-      majorCategoriesSelected = this.value;
       svg.selectAll("circle").filter(function(d) {
         var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
           (d.Median >= medianSalarySelected) &&
           (d.ShareWomen >= shareWomenSelectedMin && d.ShareWomen <= shareWomenSelectedMax) &&
-          (majorCategoriesSelected == '' || d.Major_category == majorCategoriesSelected));
+          (majorCategoriesSelected.length == 0 || majorCategoriesSelected.includes(d.Major_category)));
+          // we want if the current data point's category matches *any* of the categories in the array
         display = isHighlighted ? "#fcba03" : "#dddddd";
         return (isHighlighted)
       })
