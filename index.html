@@ -17,17 +17,17 @@
     <div id="major-size-input">
         <label for="volume">Major Size</label>
         <input type="range" min="0" max="4000" value="0" class="slider" step="10" onchange="updateMajorSizeInput(this.value)">
-        <input type="text" id="textMajorSize" value="">
+        <input type="number" id="textMajorSize" value="">
     </div>
     <div id="median-salary-input">
         <label for="volume">Median Salary</label>
         <input type="range" min="0" max="110000" value="0" class="slider" step="10" onchange="updateMedianSalaryInput(this.value)">
-        <input type="text" id="textMedianSalary" value="">
+        <input type="number" id="textMedianSalary" value="">
     </div>
     <div id="share-women-input">
         <label for="volume">Share Women</label>
-        <input type="text" onchange="">
-        <input type="text" >
+        <input type="number" onchange="">
+        <input type="number" >
     </div>
     <div class="custom-control custom-checkbox" id="filter-box">
     </div>
@@ -47,15 +47,15 @@
       majorGroup.map( x =>
         filterBox.innerHTML = filterBox.innerHTML + 
           `<br />
-          <input type="checkbox" id="${x}">
+          <input name="major-category" type="checkbox" id="${x}" value="${x}">
           <label for="${x}">${x}</label>`
       )
     }
 
   // set the dimensions and margins of the graph
 var margin = {top: 10, right: 30, bottom: 30, left: 60},
-    width = 460 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+    width = 500 - margin.left - margin.right,
+    height = 434 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
 var svg = d3.select("#my_dataviz")
@@ -97,9 +97,19 @@ d3.csv("recent-grads.csv").then(function(data) {
     .append("circle")
       .attr("cx", function (d) { return x(d.ShareWomen); } )
       .attr("cy", function (d) { return y(d.Median); } )
-      .attr("r", 1.5)
-      .style("fill", "#69b3a2")
+      .attr("r", 2.5)
+      .style("fill", "#dddddd")
 
+  d3.selectAll("[name=major-category]").on("change", function() {
+    var selected = this.value;
+    console.log("selected: " + selected);
+    display = this.checked ? "#000000" : "#dddddd";
+    svg.selectAll("circle").filter(function(d) {
+      console.log("major cateogry" + d.Major_category)
+      return selected == d.Major_category
+    })
+      .style("fill", display);
+  })
 })
 
 </script>
