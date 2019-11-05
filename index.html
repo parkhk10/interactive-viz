@@ -151,7 +151,7 @@ d3.csv("recent-grads.csv").then(function(data) {
         var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
           (d.Median >= medianSalarySelected) &&
           (d.ShareWomen >= shareWomenSelectedMin && d.ShareWomen <= shareWomenSelectedMax) &&
-          (majorCategoriesSelected.length == 0 || d.Major_category == majorCategoriesSelected));
+          (majorCategoriesSelected.length == 0 || majorCategoriesSelected.includes(d.Major_category)));
         return isHighlighted;
       })
       .style("fill", "#fcba03");
@@ -168,8 +168,7 @@ d3.csv("recent-grads.csv").then(function(data) {
         var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
           (d.Median >= medianSalarySelected) &&
           (d.ShareWomen >= shareWomenSelectedMin && d.ShareWomen <= shareWomenSelectedMax) &&
-          (majorCategoriesSelected.length == 0 || d.Major_category == majorCategoriesSelected));
-        display = isHighlighted ? "#fcba03" : "#dddddd";
+          (majorCategoriesSelected.length == 0 || majorCategoriesSelected.includes(d.Major_category)));
         return (isHighlighted)
       })
       .style("fill", "#fcba03");
@@ -183,8 +182,7 @@ d3.csv("recent-grads.csv").then(function(data) {
         var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
           (d.Median >= medianSalarySelected) &&
           (d.ShareWomen >= shareWomenSelectedMin && d.ShareWomen <= shareWomenSelectedMax) &&
-          (majorCategoriesSelected.length == 0 || d.Major_category == majorCategoriesSelected));
-        display = isHighlighted ? "#fcba03" : "#dddddd";
+          (majorCategoriesSelected.length == 0 || majorCategoriesSelected.includes(d.Major_category)));
         return (isHighlighted)
       })
       .style("fill", "#fcba03");
@@ -201,8 +199,7 @@ d3.csv("recent-grads.csv").then(function(data) {
         var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
           (d.Median >= medianSalarySelected) &&
           (d.ShareWomen >= shareWomenSelectedMin && d.ShareWomen <= shareWomenSelectedMax) &&
-          (majorCategoriesSelected.length == 0 || d.Major_category == majorCategoriesSelected));
-        display = isHighlighted ? "#fcba03" : "#dddddd";
+          (majorCategoriesSelected.length == 0 || majorCategoriesSelected.includes(d.Major_category)));
         return (isHighlighted)
       })
       .style("fill", "#fcba03");
@@ -219,8 +216,7 @@ d3.csv("recent-grads.csv").then(function(data) {
         var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
           (d.Median >= medianSalarySelected) &&
           (d.ShareWomen >= shareWomenSelectedMin && d.ShareWomen <= shareWomenSelectedMax) &&
-          (majorCategoriesSelected.length == 0 || d.Major_category == majorCategoriesSelected));
-        display = isHighlighted ? "#fcba03" : "#dddddd";
+          (majorCategoriesSelected.length == 0 || majorCategoriesSelected.includes(d.Major_category)));
         return (isHighlighted)
       })
       .style("fill", "#fcba03");
@@ -243,7 +239,6 @@ d3.csv("recent-grads.csv").then(function(data) {
           (d.ShareWomen >= shareWomenSelectedMin && d.ShareWomen <= shareWomenSelectedMax) &&
           (majorCategoriesSelected.length == 0 || majorCategoriesSelected.includes(d.Major_category)));
           // we want if the current data point's category matches *any* of the categories in the array
-        display = isHighlighted ? "#fcba03" : "#dddddd";
         return (isHighlighted)
       })
       .style("fill", "#fcba03");
