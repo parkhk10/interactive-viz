@@ -31,18 +31,18 @@
   <div id="input-panel">
     <div id="major-size-input">
         <label for="volume">Major Size</label>
-        <input name="major-size-min" type="number" onchange="">
-        <input name="major-size-max" type="number" >
+        <input id='major-size-min' defaultValue='' name="major-size-min" type="number" onchange="">
+        <input id='major-size-max' defaultValue='' name="major-size-max" type="number" >
     </div>
     <div id="median-salary-input">
         <label for="volume">Median Salary</label>
-        <input name="median-salary-min" type="range" min="0" max="110000" value="0" class="slider" step="10" onchange="updateMedianSalaryInput(this.value)">
+        <input id='median-salary-min' name="median-salary-min" type="range" min="0" max="110000" value="0" class="slider" step="10" onchange="updateMedianSalaryInput(this.value)">
         <input type="number" id="textMedianSalary" value="">
     </div>
     <div id="share-women-input">
         <label for="volume">Share Women</label>
-        <input name="share-women-min" type="number" onchange="">
-        <input name="share-women-max" type="number" >
+        <input id='share-women-min' name="share-women-min" type="number" onchange="">
+        <input id='share-women-max' name="share-women-max" type="number" >
     </div>
     <div class="custom-control custom-checkbox" id="filter-box">
     </div>
@@ -90,6 +90,16 @@ var medianSalarySelected = 0;
 var shareWomenSelectedMin = 0;
 var shareWomenSelectedMax = .97;
 var majorCategoriesSelected = [];
+// var majorSizeInputMax = document.getElementById('major-size-max').value;
+// var majorSizeInputMin = document.getElementById('major-size-min').value;
+// var shareWomenInputMax = document.getElementById('share-women-max').value;
+// var shareWomenInputMin = document.getElementById('share-women-min').value;
+// var medianSalaryInputMin = document.getElementById('median-salary-min').value;
+// var clearAll = (majorSizeInputMax.length == 0 &&
+//                 majorSizeInputMin.length == 0 &&
+//                 shareWomenInputMax.length == 0 &&
+//                 shareWomenInputMin.length == 0 &&
+//                 medianSalaryInputMin == 0);
 //Read the data
 d3.csv("recent-grads.csv").then(function(data) {
   console.log(data)
@@ -139,39 +149,79 @@ d3.csv("recent-grads.csv").then(function(data) {
                 .style("opacity", 0);
         })
 
+
+    // d3.selectAll("input").on("change", function() {
+    //   majorSizeInputMax = document.getElementById('major-size-max').value;
+    //   majorSizeInputMin = document.getElementById('major-size-min').value;
+    //   shareWomenInputMax = document.getElementById('share-women-max').value;
+    //   shareWomenInputMin = document.getElementById('share-women-min').value;
+    //   medianSalaryInputMin = document.getElementById('median-salary-min').value;
+    //   clearAll = (majorSizeInputMax.length == 0 &&
+    //             majorSizeInputMin.length == 0 &&
+    //             shareWomenInputMax.length == 0 &&
+    //             shareWomenInputMin.length == 0 &&
+    //             medianSalaryInputMin == 0);
+    //   console.log(clearAlll);
+    // })
   
     d3.selectAll("[name=major-size-min]").on("change", function() {
       majorSizeSelectedMin = parseInt(this.value);
-      if (this.value == '') {
+      majorSizeInputMax = document.getElementById('major-size-max').value;
+      majorSizeInputMin = document.getElementById('major-size-min').value;
+      shareWomenInputMax = document.getElementById('share-women-max').value;
+      shareWomenInputMin = document.getElementById('share-women-min').value;
+      medianSalaryInputMin = document.getElementById('median-salary-min').value;
+      if ((majorSizeInputMax.length == 0 &&
+                majorSizeInputMin.length == 0 &&
+                shareWomenInputMax.length == 0 &&
+                shareWomenInputMin.length == 0 &&
+                medianSalaryInputMin == 0)) {
+        svg.selectAll("circle").style("fill", "#dddddd")
         majorSizeSelectedMin = 0;
+      } else {
+        if (this.value.length == 0  && majorSizeInputMax.length != 0) {
+          majorSizeSelectedMin = 0;
+        }
+        svg.selectAll("circle").style("fill", "#dddddd")
+        svg.selectAll("circle").filter(function(d) {
+          var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
+            (d.Median >= medianSalarySelected) &&
+            (d.ShareWomen >= shareWomenSelectedMin && d.ShareWomen <= shareWomenSelectedMax) &&
+            (majorCategoriesSelected.length == 0 || majorCategoriesSelected.includes(d.Major_category)));
+          return isHighlighted;
+        })
+        .style("fill", "#fcba03");
       }
-      console.log('major min');
-      svg.selectAll("circle").style("fill", "#dddddd")
-      svg.selectAll("circle").filter(function(d) {
-        var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
-          (d.Median >= medianSalarySelected) &&
-          (d.ShareWomen >= shareWomenSelectedMin && d.ShareWomen <= shareWomenSelectedMax) &&
-          (majorCategoriesSelected.length == 0 || majorCategoriesSelected.includes(d.Major_category)));
-        return isHighlighted;
-      })
-      .style("fill", "#fcba03");
     })
     
     d3.selectAll("[name=major-size-max]").on("change", function() {
       majorSizeSelectedMax = parseInt(this.value);
-      console.log(this.value == '');
-      if (this.value == '') {
-        majorSizeSelectedMax = 393735;
+      majorSizeInputMax = document.getElementById('major-size-max').value;
+      majorSizeInputMin = document.getElementById('major-size-min').value;
+      shareWomenInputMax = document.getElementById('share-women-max').value;
+      shareWomenInputMin = document.getElementById('share-women-min').value;
+      medianSalaryInputMin = document.getElementById('median-salary-min').value;
+      if ((majorSizeInputMax.length == 0 &&
+                majorSizeInputMin.length == 0 &&
+                shareWomenInputMax.length == 0 &&
+                shareWomenInputMin.length == 0 &&
+                medianSalaryInputMin == 0)) {
+        svg.selectAll("circle").style("fill", "#dddddd")
+        majorSizeSelectedMax = 393736;
+      } else {
+        if (this.value.length == 0 && majorSizeInputMin.length != 0) {
+          majorSizeSelectedMax = 393736;
+        }
+        svg.selectAll("circle").style("fill", "#dddddd")
+        svg.selectAll("circle").filter(function(d) {
+          var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
+            (d.Median >= medianSalarySelected) &&
+            (d.ShareWomen >= shareWomenSelectedMin && d.ShareWomen <= shareWomenSelectedMax) &&
+            (majorCategoriesSelected.length == 0 || majorCategoriesSelected.includes(d.Major_category)));
+          return isHighlighted;
+        })
+        .style("fill", "#fcba03");
       }
-      svg.selectAll("circle").style("fill", "#dddddd")
-      svg.selectAll("circle").filter(function(d) {
-        var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
-          (d.Median >= medianSalarySelected) &&
-          (d.ShareWomen >= shareWomenSelectedMin && d.ShareWomen <= shareWomenSelectedMax) &&
-          (majorCategoriesSelected.length == 0 || majorCategoriesSelected.includes(d.Major_category)));
-        return (isHighlighted)
-      })
-      .style("fill", "#fcba03");
     })
 
     d3.selectAll("[name=median-salary-min]").on("change", function() {
@@ -190,39 +240,70 @@ d3.csv("recent-grads.csv").then(function(data) {
 
     d3.selectAll("[name=share-women-min]").on("change", function() {
       shareWomenSelectedMin = parseFloat(this.value);
-      if (this.value == '') {
+      majorSizeInputMax = document.getElementById('major-size-max').value;
+      majorSizeInputMin = document.getElementById('major-size-min').value;
+      shareWomenInputMax = document.getElementById('share-women-max').value;
+      shareWomenInputMin = document.getElementById('share-women-min').value;
+      medianSalaryInputMin = document.getElementById('median-salary-min').value;
+      if ((majorSizeInputMax.length == 0 &&
+                majorSizeInputMin.length == 0 &&
+                shareWomenInputMax.length == 0 &&
+                shareWomenInputMin.length == 0 &&
+                medianSalaryInputMin == 0)) {
+        svg.selectAll("circle").style("fill", "#dddddd")
         shareWomenSelectedMin = 0;
+      } else {
+        if (this.value.length == 0 && shareWomenInputMax.length != 0) {
+          shareWomenSelectedMin = 0;
+        }
+        svg.selectAll("circle").style("fill", "#dddddd")
+        svg.selectAll("circle").filter(function(d) {
+          var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
+            (d.Median >= medianSalarySelected) &&
+            (d.ShareWomen >= shareWomenSelectedMin && d.ShareWomen <= shareWomenSelectedMax) &&
+            (majorCategoriesSelected.length == 0 || majorCategoriesSelected.includes(d.Major_category)));
+          return isHighlighted;
+        })
+        .style("fill", "#fcba03");
       }
-      svg.selectAll("circle").style("fill", "#dddddd")
-      console.log('women min' + shareWomenSelectedMin);
-      svg.selectAll("circle").filter(function(d) {
-        var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
-          (d.Median >= medianSalarySelected) &&
-          (d.ShareWomen >= shareWomenSelectedMin && d.ShareWomen <= shareWomenSelectedMax) &&
-          (majorCategoriesSelected.length == 0 || majorCategoriesSelected.includes(d.Major_category)));
-        return (isHighlighted)
-      })
-      .style("fill", "#fcba03");
     })
 
     d3.selectAll("[name=share-women-max]").on("change", function() {
       shareWomenSelectedMax = parseFloat(this.value);
-      if (this.value == '') {
+      majorSizeInputMax = document.getElementById('major-size-max').value;
+      majorSizeInputMin = document.getElementById('major-size-min').value;
+      shareWomenInputMax = document.getElementById('share-women-max').value;
+      shareWomenInputMin = document.getElementById('share-women-min').value;
+      medianSalaryInputMin = document.getElementById('median-salary-min').value;
+      if ((majorSizeInputMax.length == 0 &&
+                majorSizeInputMin.length == 0 &&
+                shareWomenInputMax.length == 0 &&
+                shareWomenInputMin.length == 0 &&
+                medianSalaryInputMin == 0)) {
+        svg.selectAll("circle").style("fill", "#dddddd")
         shareWomenSelectedMax = .97;
+      } else {
+        if (this.value.length == 0 && shareWomenInputMin.length != 0) {
+          shareWomenSelectedMax = .97;
+        }
+        svg.selectAll("circle").style("fill", "#dddddd")
+        svg.selectAll("circle").filter(function(d) {
+          var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
+            (d.Median >= medianSalarySelected) &&
+            (d.ShareWomen >= shareWomenSelectedMin && d.ShareWomen <= shareWomenSelectedMax) &&
+            (majorCategoriesSelected.length == 0 || majorCategoriesSelected.includes(d.Major_category)));
+          return isHighlighted;
+        })
+        .style("fill", "#fcba03");
       }
-      svg.selectAll("circle").style("fill", "#dddddd")
-      console.log('women max');
-      svg.selectAll("circle").filter(function(d) {
-        var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
-          (d.Median >= medianSalarySelected) &&
-          (d.ShareWomen >= shareWomenSelectedMin && d.ShareWomen <= shareWomenSelectedMax) &&
-          (majorCategoriesSelected.length == 0 || majorCategoriesSelected.includes(d.Major_category)));
-        return (isHighlighted)
-      })
-      .style("fill", "#fcba03");
     })
 
     d3.selectAll("[name=major-category]").on("change", function() {
+      majorSizeInputMax = document.getElementById('major-size-max').value;
+      majorSizeInputMin = document.getElementById('major-size-min').value;
+      shareWomenInputMax = document.getElementById('share-women-max').value;
+      shareWomenInputMin = document.getElementById('share-women-min').value;
+      medianSalaryInputMin = document.getElementById('median-salary-min').value;
       if (majorCategoriesSelected.includes(this.value)) {
         var index = majorCategoriesSelected.indexOf(this.value);
         if (index > -1) {
@@ -231,6 +312,15 @@ d3.csv("recent-grads.csv").then(function(data) {
       } else {
         majorCategoriesSelected.push(this.value);
       }
+      if ((majorSizeInputMax.length == 0 &&
+                majorSizeInputMin.length == 0 &&
+                shareWomenInputMax.length == 0 &&
+                shareWomenInputMin.length == 0 &&
+                medianSalaryInputMin == 0 &&
+                majorCategoriesSelected == [])) {
+        svg.selectAll("circle").style("fill", "#dddddd")
+        majorCategoriesSelected = [];
+      } 
       svg.selectAll("circle").style("fill", "#dddddd")
       console.log('major');
       svg.selectAll("circle").filter(function(d) {
