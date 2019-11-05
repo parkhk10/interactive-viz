@@ -231,7 +231,7 @@ d3.csv("recent-grads.csv").then(function(data) {
         svg.selectAll("circle").style("fill", "#dddddd")
         majorSizeSelectedMin = 0;
       } else {
-        if (this.value.length == 0  && majorSizeInputMax.length != 0) {
+        if (this.value.length == 0) {
           majorSizeSelectedMin = 0;
         }
         svg.selectAll("circle").style("fill", "#dddddd")
@@ -261,7 +261,7 @@ d3.csv("recent-grads.csv").then(function(data) {
         svg.selectAll("circle").style("fill", "#dddddd")
         majorSizeSelectedMax = 393736;
       } else {
-        if (this.value.length == 0 && majorSizeInputMin.length != 0) {
+        if (this.value.length == 0) {
           majorSizeSelectedMax = 393736;
         }
         svg.selectAll("circle").style("fill", "#dddddd")
@@ -275,11 +275,10 @@ d3.csv("recent-grads.csv").then(function(data) {
         .style("fill", "#fcba03");
       }
     })
-
+  
     d3.selectAll("[name=median-salary-min]").on("change", function() {
       medianSalarySelected = parseInt(this.value);
       svg.selectAll("circle").style("fill", "#dddddd")
-      console.log('median');
       svg.selectAll("circle").filter(function(d) {
         var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
           (d.Median >= medianSalarySelected) &&
@@ -305,7 +304,7 @@ d3.csv("recent-grads.csv").then(function(data) {
         svg.selectAll("circle").style("fill", "#dddddd")
         shareWomenSelectedMin = 0;
       } else {
-        if (this.value.length == 0 && shareWomenInputMax.length != 0) {
+        if (this.value.length == 0) {
           shareWomenSelectedMin = 0;
         }
         svg.selectAll("circle").style("fill", "#dddddd")
@@ -335,7 +334,7 @@ d3.csv("recent-grads.csv").then(function(data) {
         svg.selectAll("circle").style("fill", "#dddddd")
         shareWomenSelectedMax = .97;
       } else {
-        if (this.value.length == 0 && shareWomenInputMin.length != 0) {
+        if (this.value.length == 0) {
           shareWomenSelectedMax = .97;
         }
         svg.selectAll("circle").style("fill", "#dddddd")
@@ -369,21 +368,21 @@ d3.csv("recent-grads.csv").then(function(data) {
                 shareWomenInputMax.length == 0 &&
                 shareWomenInputMin.length == 0 &&
                 medianSalaryInputMin == 0 &&
-                majorCategoriesSelected == [])) {
+                majorCategoriesSelected.length == 0)) {
         svg.selectAll("circle").style("fill", "#dddddd")
         majorCategoriesSelected = [];
-      } 
-      svg.selectAll("circle").style("fill", "#dddddd")
-      console.log('major');
-      svg.selectAll("circle").filter(function(d) {
-        var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
-          (d.Median >= medianSalarySelected) &&
-          (d.ShareWomen >= shareWomenSelectedMin && d.ShareWomen <= shareWomenSelectedMax) &&
-          (majorCategoriesSelected.length == 0 || majorCategoriesSelected.includes(d.Major_category)));
-          // we want if the current data point's category matches *any* of the categories in the array
-        return (isHighlighted)
-      })
-      .style("fill", "#fcba03");
+      } else {
+        svg.selectAll("circle").style("fill", "#dddddd")
+        svg.selectAll("circle").filter(function(d) {
+          var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
+            (d.Median >= medianSalarySelected) &&
+            (d.ShareWomen >= shareWomenSelectedMin && d.ShareWomen <= shareWomenSelectedMax) &&
+            (majorCategoriesSelected.length == 0 || majorCategoriesSelected.includes(d.Major_category)));
+            // we want if the current data point's category matches *any* of the categories in the array
+          return (isHighlighted)
+        })
+        .style("fill", "#fcba03");
+      }
     })
   })
 
