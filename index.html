@@ -30,8 +30,6 @@
         <input type="text" >
     </div>
     <div class="custom-control custom-checkbox" id="filter-box">
-        <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
-        <label class="custom-control-label" for="defaultUnchecked">Default unchecked</label>
     </div>
   </div>
   <script src="https://d3js.org/d3.v5.js"></script>
@@ -46,12 +44,11 @@
     }
     function generateFilters(majorGroup) {
       var filterBox = document.getElementById("filter-box");
-      // majorGroup.map(function(g) {
-      //   var newCheckboxItem = document.createElement("input").setAttribute("type", "checkbox")
-      //   filterBox.append(newCheckboxItem);
-      // })
       majorGroup.map( x =>
-        filterBox.innerHTML = filterBox.innerHTML + `<label class="custom-control-label" for="defaultUnchecked">${x}</label>`
+        filterBox.innerHTML = filterBox.innerHTML + 
+          `<br />
+          <input type="checkbox" id="${x}">
+          <label for="${x}">${x}</label>`
       )
     }
 
@@ -69,8 +66,8 @@ var svg = d3.select("#my_dataviz")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
 
-var majorCategories = ["Enginerring", "Computers and Mathematics", "Industrial Arts & Consumer Services", "Agriculture & Antural Resources", "Business", "Law & Public Policy",
-                        "Physica Sciences", "Social Science", "Biology & LIfe Science", "Arts", "Humanities & Liberal Arts", "Communication s& Journalism", "Education", "Interdisciplinary",
+var majorCategories = ["Engineering", "Computers & Mathematics", "Industrial Arts & Consumer Services", "Agriculture & Natural Resources", "Business", "Law & Public Policy",
+                        "Physical Sciences", "Social Science", "Biology & Life Science", "Arts", "Humanities & Liberal Arts", "Communications & Journalism", "Education", "Interdisciplinary",
                         "Psychology & Social Work", "Health"]
 //Read the data
 d3.csv("recent-grads.csv").then(function(data) {
