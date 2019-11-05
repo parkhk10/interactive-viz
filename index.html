@@ -9,6 +9,21 @@
 
   <link href="index.css" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <style>
+  div.tooltip {	
+    position: absolute;			
+    text-align: center;			
+    width: 120px;					
+    height: 50px;					
+    padding: 2px;				
+    font: 12px sans-serif;		
+    background: lightsteelblue;	
+    border: 0px;		
+    border-radius: 8px;			
+    pointer-events: none;			
+}
+  </style>
 </head>
 
 <body>
@@ -16,18 +31,18 @@
   <div id="input-panel">
     <div id="major-size-input">
         <label for="volume">Major Size</label>
-        <input type="range" min="0" max="4000" value="0" class="slider" step="10" onchange="updateMajorSizeInput(this.value)">
-        <input type="number" id="textMajorSize" value="">
+        <input name="major-size-min" type="number" onchange="">
+        <input name="major-size-max" type="number" >
     </div>
     <div id="median-salary-input">
         <label for="volume">Median Salary</label>
-        <input type="range" min="0" max="110000" value="0" class="slider" step="10" onchange="updateMedianSalaryInput(this.value)">
+        <input name="median-salary-min" type="range" min="0" max="110000" value="0" class="slider" step="10" onchange="updateMedianSalaryInput(this.value)">
         <input type="number" id="textMedianSalary" value="">
     </div>
     <div id="share-women-input">
         <label for="volume">Share Women</label>
-        <input type="number" onchange="">
-        <input type="number" >
+        <input name="share-women-min" type="number" onchange="">
+        <input name="share-women-max" type="number" >
     </div>
     <div class="custom-control custom-checkbox" id="filter-box">
     </div>
@@ -69,10 +84,21 @@ var svg = d3.select("#my_dataviz")
 var majorCategories = ["Engineering", "Computers & Mathematics", "Industrial Arts & Consumer Services", "Agriculture & Natural Resources", "Business", "Law & Public Policy",
                         "Physical Sciences", "Social Science", "Biology & Life Science", "Arts", "Humanities & Liberal Arts", "Communications & Journalism", "Education", "Interdisciplinary",
                         "Psychology & Social Work", "Health"]
+var majorSizeSelectedMin = 0;
+var majorSizeSelectedMax = 393735;
+var medianSalarySelected = 0;
+var shareWomenSelectedMin = 0;
+var shareWomenSelectedMax = .97;
+var majorCategoriesSelected = '';
 //Read the data
 d3.csv("recent-grads.csv").then(function(data) {
   console.log(data)
   generateFilters(majorCategories);
+
+  // Define the div for the tooltip
+  var div = d3.select("body").append("div")	
+    .attr("class", "tooltip")				
+    .style("opacity", 0);
 
   // Add X axis
   var x = d3.scaleLinear()
@@ -99,18 +125,114 @@ d3.csv("recent-grads.csv").then(function(data) {
       .attr("cy", function (d) { return y(d.Median); } )
       .attr("r", 2.5)
       .style("fill", "#dddddd")
+      .on("mouseover", function(d) {		
+            div.transition()		
+                .duration(200)		
+                .style("opacity", .9);		
+            div.html(d.Major + "<br/>"  + d.Median)	
+                .style("left", (d3.event.pageX) + "px")		
+                .style("top", (d3.event.pageY - 28) + "px");	
+            })					
+        .on("mouseout", function(d) {		
+            div.transition()		
+                .duration(500)		
+                .style("opacity", 0);
+        })
 
-  d3.selectAll("[name=major-category]").on("change", function() {
-    var selected = this.value;
-    console.log("selected: " + selected);
-    display = this.checked ? "#000000" : "#dddddd";
-    svg.selectAll("circle").filter(function(d) {
-      console.log("major cateogry" + d.Major_category)
-      return selected == d.Major_category
+  
+    d3.selectAll("[name=major-size-min]").on("change", function() {
+      console.log('major min');
+      svg.selectAll("circle").style("fill", "#dddddd")
+      majorSizeSelectedMin = parseInt(this.value);
+      svg.selectAll("circle").filter(function(d) {
+        var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
+          (d.Median >= medianSalarySelected) &&
+          (d.ShareWomen >= shareWomenSelectedMin && d.ShareWomen <= shareWomenSelectedMax) &&
+          (majorCategoriesSelected == '' || d.Major_category == majorCategoriesSelected));
+        // display = isHighlighted ? "#fcba03" : "#dddddd";
+        // console.log(isHighlighted);
+        // console.log(display);
+        return isHighlighted;
+      })
+      .style("fill", "#fcba03");
+      // console.log("outside" + display);
     })
-      .style("fill", display);
+    
+    d3.selectAll("[name=major-size-max]").on("change", function() {
+      console.log('major max');
+      svg.selectAll("circle").style("fill", "#dddddd")
+      majorSizeSelectedMax = parseInt(this.value);
+      svg.selectAll("circle").filter(function(d) {
+        var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
+          (d.Median >= medianSalarySelected) &&
+          (d.ShareWomen >= shareWomenSelectedMin && d.ShareWomen <= shareWomenSelectedMax) &&
+          (majorCategoriesSelected == '' || d.Major_category == majorCategoriesSelected));
+        display = isHighlighted ? "#fcba03" : "#dddddd";
+        return (isHighlighted)
+      })
+      .style("fill", "#fcba03");
+    })
+
+    d3.selectAll("[name=median-salary-min]").on("change", function() {
+      svg.selectAll("circle").style("fill", "#dddddd")
+      console.log('median');
+      medianSalarySelected = parseInt(this.value);
+      svg.selectAll("circle").filter(function(d) {
+        var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
+          (d.Median >= medianSalarySelected) &&
+          (d.ShareWomen >= shareWomenSelectedMin && d.ShareWomen <= shareWomenSelectedMax) &&
+          (majorCategoriesSelected == '' || d.Major_category == majorCategoriesSelected));
+        display = isHighlighted ? "#fcba03" : "#dddddd";
+        return (isHighlighted)
+      })
+      .style("fill", "#fcba03");
+    })
+
+    d3.selectAll("[name=share-women-min]").on("change", function() {
+      svg.selectAll("circle").style("fill", "#dddddd")
+      console.log('women min');
+      shareWomenSelectedMin = parseInt(this.value);
+      svg.selectAll("circle").filter(function(d) {
+        var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
+          (d.Median >= medianSalarySelected) &&
+          (d.ShareWomen >= shareWomenSelectedMin && d.ShareWomen <= shareWomenSelectedMax) &&
+          (majorCategoriesSelected == '' || d.Major_category == majorCategoriesSelected));
+        display = isHighlighted ? "#fcba03" : "#dddddd";
+        return (isHighlighted)
+      })
+      .style("fill", "#fcba03");
+    })
+
+    d3.selectAll("[name=share-women-max]").on("change", function() {
+      svg.selectAll("circle").style("fill", "#dddddd")
+      console.log('women max');
+      shareWomenSelectedMax = parseInt(this.value);
+      svg.selectAll("circle").filter(function(d) {
+        var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
+          (d.Median >= medianSalarySelected) &&
+          (d.ShareWomen >= shareWomenSelectedMin && d.ShareWomen <= shareWomenSelectedMax) &&
+          (majorCategoriesSelected == '' || d.Major_category == majorCategoriesSelected));
+        display = isHighlighted ? "#fcba03" : "#dddddd";
+        return (isHighlighted)
+      })
+      .style("fill", "#fcba03");
+    })
+
+    d3.selectAll("[name=major-category]").on("change", function() {
+      svg.selectAll("circle").style("fill", "#dddddd")
+      console.log('major');
+      majorCategoriesSelected = this.value;
+      svg.selectAll("circle").filter(function(d) {
+        var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
+          (d.Median >= medianSalarySelected) &&
+          (d.ShareWomen >= shareWomenSelectedMin && d.ShareWomen <= shareWomenSelectedMax) &&
+          (majorCategoriesSelected == '' || d.Major_category == majorCategoriesSelected));
+        display = isHighlighted ? "#fcba03" : "#dddddd";
+        return (isHighlighted)
+      })
+      .style("fill", "#fcba03");
+    })
   })
-})
 
 </script>
 </body>
