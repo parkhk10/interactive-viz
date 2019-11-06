@@ -27,9 +27,10 @@
           <input id='major-size-max' placeholder="Max" defaultValue='' name="major-size-max" type="number" >
       </div>
       <div id="median-salary-input">
-          <label for="volume">Median Salary: </label>
-          <b>0</b><input id='median-salary-min' name="median-salary-min" type="range" min="0" max="110000" value="0" class="slider" step="10" onchange="updateMedianSalaryInput(this.value)"><b>110000</b>
-          <input type="number" id="textMedianSalary" value="" disabled>
+        <label for="volume">Median Salary: </label>
+        <input id='median-salary-min' name="median-salary-min" type="range" min="0" max="110000" value="0" class="slider" step="10" onchange="updateMedianSalaryInput(this.value)">
+        <input type="number" id="textMedianSalary" value="" disabled>
+          <div id="range"><b id='min0'>0</b><b id='max110000'>110000</b></div>
       </div>
       <div id="share-women-input">
           <label for="volume">Share Women</label>

@@ -64,3 +64,19 @@ div.tooltip {
   #top-graphs {
     display: flex;
   }
+
+  #range{
+    height: 20px;
+    width: 175px;
+    margin-left: 85px;
+    margin-top: -10px;
+  }
+
+  #max110000 {
+    float: right;
+  }
+
+  #min0 {
+    float: left;
+  }
+  
