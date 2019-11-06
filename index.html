@@ -176,7 +176,7 @@
                 .range([height, 0]);
               
         // Scale the range of the data in the domains
-        shareX.domain(filteredData.map(function(d) { return parseFloat(d.Major); }));
+        shareX.domain(filteredData.map(function(d) { return d.Major; }));
         shareY.domain([0, d3.max(filteredData, function(d) { return parseFloat(d.ShareWomen); })]);
         console.log("filtered data shown: " + JSON.stringify(filteredData));
         console.log("max share: " + d3.max(filteredData, function(d) { console.log("major: " +  d.Major);
