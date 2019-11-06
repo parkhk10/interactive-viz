@@ -7,79 +7,29 @@
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link href="index.css" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=DM+Sans|Raleway:400,500,600&display=swap" rel="stylesheet">
-
-  <style>
-    div.tooltip {	
-      position: absolute;			
-      text-align: center;			
-      width: 150px;					
-      height: 125px;					
-      padding: 5px;				
-      font: 13px sans-serif;		
-      background: #FFA69E;	
-      border: 0px;		
-      border-radius: 8px;			
-      pointer-events: none;		
-      font-family: 'Raleway', sans-serif;	
-    }
-
-    body {
-      background-color: #F8F1E5;
-      font-family: 'Raleway', sans-serif;
-      font-weight: 500;
-    }
-
-    header {
-      margin: auto;
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    #container {
-      display: flex;
-      padding-left: 80px;
-      padding-right: 80px;
-    }
-
-    #input-panel {
-      border: 1px solid black;
-      margin: 20px;
-      padding: 15px;
-      margin-left: 100px;
-      font-size: 13px;
-    }
-
-    #my_dataviz {
-      margin-top: 25px;
-    }
-
-    .filter-name {
-      margin-bottom: -10px;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
     <header>
-      <h1>Whatever header we want</h1>
-      <h4>by Anna Deng and Keren Park</h4>
-      <p>description</p>
+      <h2>College Major Explorer</h2>
+      <h5>by Anna Deng and Keren Park</h5>
+      <p>Choosing your college major can be hard. This explorer helps you investigate different majors' characteristics and job prospects to facilitate the major decision process</p>
     </header>
   <div id='container'>
     <div id="my_dataviz"></div>
     <div id="input-panel">
       <div id="major-size-input">
-          <label for="volume">Major Size</label>
-          <input id='major-size-min' defaultValue='' name="major-size-min" type="number" onchange="">
-          <input id='major-size-max' defaultValue='' name="major-size-max" type="number" >
+          <label for="volume">Major Size: </label>
+          <input id='major-size-min' placeholder="Min" defaultValue='' name="major-size-min" type="number" onchange="">
+          <input id='major-size-max' placeholder="Max" defaultValue='' name="major-size-max" type="number" >
       </div>
       <div id="median-salary-input">
-          <label for="volume">Median Salary</label>
-          <input id='median-salary-min' name="median-salary-min" type="range" min="0" max="110000" value="0" class="slider" step="10" onchange="updateMedianSalaryInput(this.value)">
-          <input type="number" id="textMedianSalary" value="">
+          <label for="volume">Median Salary: </label>
+          <b>0</b><input id='median-salary-min' name="median-salary-min" type="range" min="0" max="110000" value="0" class="slider" step="10" onchange="updateMedianSalaryInput(this.value)"><b>110000</b>
+          <input type="number" id="textMedianSalary" value="" disabled>
       </div>
       <div id="share-women-input">
           <label for="volume">Share Women</label>
@@ -107,7 +57,8 @@
         filterBox.innerHTML = filterBox.innerHTML + 
           `<br />
           <input name="major-category" type="checkbox" id="${x}" value="${x}">
-          <label for="${x}">${x}</label>`
+          <label for="${x}">${x}</label>
+          <span class="dot"></span>`
       )
     }
 
