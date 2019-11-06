@@ -101,6 +101,16 @@
               .attr("dy", ".15em")
               .attr("transform", "rotate(-65)");
 
+        // text label for the y axis
+        majorSizeSvg.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 0 - margin.left)
+                .attr("x",0 - (height / 2))
+                .attr("dy", "1em")
+                .style("text-anchor", "middle")
+                .style("font", "12px Raleway")
+                .text("Major Size");   
+
         // add the y Axis
         majorSizeSvg.append("g")
             .call(d3.axisLeft(y))
@@ -108,6 +118,7 @@
               .style("text-anchor", "end")
               .attr("id", 'y-label');
 
+      //// MEDIAN SALARY BAR GRAPH
       var salX = d3.scaleBand()
               .range([0, width])
               .padding(0.1);
@@ -116,16 +127,17 @@
               
         // Scale the range of the data in the domains
         salX.domain(filteredData.map(function(d) { return d.Major; }));
-        salY.domain([0, d3.max(filteredData, function(d) { return d.Median; })]);
+        salY.domain([0, d3.max(filteredData, function(d) { return parseFloat(d.Median); })]);
+
         // append the rectangles for the bar chart
         medianSalarySvg.selectAll(".bar")
             .data(filteredData)
           .enter().append("rect")
             .attr("class", "bar")
-            .attr("x", function(d) { return x(d.Major); })
-            .attr("width", x.bandwidth())
-            .attr("y", function(d) { return y(d.Median); })
-            .attr("height", function(d) { return height - y(d.Median); });
+            .attr("x", function(d) { return salX(d.Major); })
+            .attr("width", salX.bandwidth())
+            .attr("y", function(d) { return salY(parseFloat(d.Median)); })
+            .attr("height", function(d) { return height - salY(d.Median); });
         // add the x Axis
         medianSalarySvg.append("g")
             .attr("transform", "translate(0," + height + ")")
@@ -139,11 +151,22 @@
 
         // add the y Axis
         medianSalarySvg.append("g")
-            .call(d3.axisLeft(y))
+            .call(d3.axisLeft(salY))
             .selectAll("text")	
               .style("text-anchor", "end")
               .attr("id", 'y-label');
 
+        // text label for the y axis
+        medianSalarySvg.append("text")
+              .attr("transform", "rotate(-90)")
+              .attr("y", 0 - margin.left)
+              .attr("x",0 - (height / 2))
+              .attr("dy", "1em")
+              .style("text-anchor", "middle")
+              .style("font", "12px Raleway")
+              .text("Median Salary");   
+
+      //// SHARE WOMEN BAR GRAPH
       var shareX = d3.scaleBand()
               .range([0, width])
               .padding(0.1);
@@ -151,17 +174,22 @@
                 .range([height, 0]);
               
         // Scale the range of the data in the domains
-        shareX.domain(filteredData.map(function(d) { return d.Major; }));
-        shareY.domain([0, d3.max(filteredData, function(d) { return d.ShareWomen; })]);
+        shareX.domain(filteredData.map(function(d) { return parseFloat(d.Major); }));
+        shareY.domain([0, d3.max(filteredData, function(d) { return parseFloat(d.ShareWomen); })]);
+        console.log("filtered data shown: " + JSON.stringify(filteredData));
+        console.log("max share: " + d3.max(filteredData, function(d) { console.log("major: " +  d.Major);
+                                                                        console.log("share women: " + d.ShareWomen);
+                                                                        return (d.ShareWomen); }));
         // append the rectangles for the bar chart
         shareWomenSvg.selectAll(".bar")
             .data(filteredData)
           .enter().append("rect")
             .attr("class", "bar")
-            .attr("x", function(d) { return x(d.Major); })
-            .attr("width", x.bandwidth())
-            .attr("y", function(d) { return y(d.ShareWomen); })
-            .attr("height", function(d) { return height - y(d.ShareWomen); });
+            .attr("x", function(d) { return shareX(d.Major); })
+            .attr("width", shareX.bandwidth())
+            .attr("y", function(d) { console.log("major: " + d.Major + " SW: " + shareY(d.ShareWomen));
+                                      return shareY(parseFloat(d.ShareWomen)); })
+            .attr("height", function(d) { return parseFloat(height) - shareY(parseFloat(d.ShareWomen)); });
         // add the x Axis
         shareWomenSvg.append("g")
             .attr("transform", "translate(0," + height + ")")
@@ -175,7 +203,7 @@
 
         // add the y Axis
         shareWomenSvg.append("g")
-            .call(d3.axisLeft(y))
+            .call(d3.axisLeft(shareY))
             .selectAll("text")	
               .style("text-anchor", "end")
               .attr("id", 'y-label');
@@ -264,6 +292,15 @@ d3.csv("recent-grads.csv").then(function(data) {
     .attr("transform", "translate(0," + height + ")")
     .call(d3.axisBottom(x));
 
+  // text label for the x axis
+  svg.append("text")             
+      .attr("transform",
+            "translate(" + (width/2) + " ," + 
+                           (height + margin.top + 20) + ")") // what's the difference between this and the x and y attributes?
+      .style("text-anchor", "middle")
+      .style("font", "12px Raleway")
+      .text("Unemployment Rate for New Grads");
+
   // Add Y axis
   var y = d3.scaleLinear()
     .domain([0, 110000])
@@ -278,6 +315,7 @@ d3.csv("recent-grads.csv").then(function(data) {
         .attr("x",0 - (height / 2))
         .attr("dy", "1em")
         .style("text-anchor", "middle")
+        .style("font", "12px Raleway")
         .text("Median Salary");      
         
   // Add dots
