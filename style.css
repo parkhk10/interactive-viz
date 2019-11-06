@@ -56,3 +56,11 @@ div.tooltip {
     border-radius: 50%;
     display: inline-block;
   }
+
+#bar-graphs{
+  margin-left: 50px;
+}
+
+  #top-graphs {
+    display: flex;
+  }
