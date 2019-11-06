@@ -101,8 +101,7 @@
             .attr("fill", function (d){ return colorMajorDict[d.Major_category]; })
             .on("mouseover", function(d) {
                 d3.select(this)
-                  .style("stroke", "#000000")
-                  // .style("fill", function(d) { return colorMajorDict[d.Major_category]; });		
+                  .style("stroke", "#000000")	
                     div.transition()		
                         .duration(200)		
                         .style("opacity", .9);		
@@ -113,8 +112,7 @@
             .on("mouseout", function(d) {	
               d3.select(this)
                 .attr("r", 4)
-                .style("stroke", "none")
-                // .style("fill", function(d) { return colorMajorDict[d.Major_category]; });			
+                .style("stroke", "none")		
                 div.transition()		
                     .duration(500)		
                     .style("opacity", 0);
@@ -171,8 +169,7 @@
             .attr("fill", function (d){ return colorMajorDict[d.Major_category]; })
             .on("mouseover", function(d) {
                 d3.select(this)
-                  .style("stroke", "#000000")
-                  // .style("fill", function(d) { return colorMajorDict[d.Major_category]; });		
+                  .style("stroke", "#000000")	
                     div.transition()		
                         .duration(200)		
                         .style("opacity", .9);		
@@ -183,8 +180,7 @@
             .on("mouseout", function(d) {	
               d3.select(this)
                 .attr("r", 4)
-                .style("stroke", "none")
-                // .style("fill", function(d) { return colorMajorDict[d.Major_category]; });			
+                .style("stroke", "none")	
                 div.transition()		
                     .duration(500)		
                     .style("opacity", 0);
@@ -245,7 +241,6 @@
             .on("mouseover", function(d) {
                 d3.select(this)
                   .style("stroke", "#000000")
-                  // .style("fill", function(d) { return colorMajorDict[d.Major_category]; });		
                     div.transition()		
                         .duration(200)		
                         .style("opacity", .9);		
@@ -256,8 +251,7 @@
             .on("mouseout", function(d) {	
               d3.select(this)
                 .attr("r", 4)
-                .style("stroke", "none")
-                // .style("fill", function(d) { return colorMajorDict[d.Major_category]; });			
+                .style("stroke", "none")		
                 div.transition()		
                     .duration(500)		
                     .style("opacity", 0);
@@ -413,8 +407,7 @@ d3.csv("recent-grads.csv").then(function(data) {
       .on("mouseover", function(d) {
         d3.select(this)
           .attr("r", 5)
-          .style("stroke", "#FFA69E")
-          // .style("fill", function(d) { return colorMajorDict[d.Major_category]; });		
+          .style("stroke", "#FFA69E")	
             div.transition()		
                 .duration(200)		
                 .style("opacity", .9);		
@@ -425,67 +418,12 @@ d3.csv("recent-grads.csv").then(function(data) {
         .on("mouseout", function(d) {	
           d3.select(this)
             .attr("r", 4)
-            .style("stroke", "none")
-            // .style("fill", function(d) { return colorMajorDict[d.Major_category]; });			
+            .style("stroke", "none")	
             div.transition()		
                 .duration(500)		
                 .style("opacity", 0);
         })
 
-    // //// Brushing and Zooming
-    // // Add a clipPath: everything out of this area won't be drawn.
-    // var clip = svg.append("defs").append("svg:clipPath")
-    //     .attr("id", "clip")
-    //     .append("svg:rect")
-    //     .attr("width", width )
-    //     .attr("height", height )
-    //     .attr("x", 0)
-    //     .attr("y", 0);
-
-    // // Add brushing
-    // var brush = d3.brushX()                 // Add the brush feature using the d3.brush function
-    //   .extent( [ [0,0], [width,height] ] ) // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
-    //   .on("end", updateChart) // Each time the brush selection changes, trigger the 'updateChart' function
-    
-    // // Create the scatter variable: where both the circles and the brush take place
-    // var scatter = svg.append("g")
-    //   .attr("clip-path", "url(#clip)")
-
-    // // Add the brushing
-    // scatter
-    //     .append("g")
-    //       .attr("class", "brush")
-    //       .call(brush);
-
-    //   // A function that set idleTimeOut to null
-    //   var idleTimeout
-    //   function idled() { idleTimeout = null; }
-
-    //   // A function that update the chart for given boundaries
-    //   function updateChart() {
-    //     extent = d3.event.selection
-
-    //     // If no selection, back to initial coordinate. Otherwise, update X axis domain
-    //     if(!extent){
-    //       if (!idleTimeout) return idleTimeout = setTimeout(idled, 350); // This allows to wait a little bit
-    //       x.domain([0,.22])
-    //     }else{
-    //       x.domain([ x.invert(extent[0]), x.invert(extent[1]) ])
-    //       scatter.select(".brush").call(brush.move, null) // This remove the grey brush area as soon as the selection has been done
-    //     }
-
-    //     // Update axis and circle position
-    //     xAxis.transition().duration(1000).call(d3.axisBottom(x))
-    //     scatter
-    //       .selectAll("circle")
-    //       .transition().duration(1000)
-    //       .attr("cx", function (d) { return x(d.Unemployment_rate); } )
-    //       .attr("cy", function (d) { return y(d.Median); } )
-    //       .attr("r", 10);
-    //     }
-
-
-  
     d3.selectAll("[name=major-size-min]").on("change", function() {
       majorSizeSelectedMin = parseInt(this.value);
       majorSizeInputMax = document.getElementById('major-size-max').value;
@@ -525,8 +463,6 @@ d3.csv("recent-grads.csv").then(function(data) {
             (majorCategoriesSelected.length == 0 || majorCategoriesSelected.includes(d.Major_category)));
           return isHighlighted;
         })
-        console.log(filteredData);
-
       filterMajorSizeGraph(filteredData);
     })
     
@@ -578,7 +514,6 @@ d3.csv("recent-grads.csv").then(function(data) {
       medianSalarySelected = parseInt(this.value);
       svg.selectAll("circle").style("fill", "#C6C6D3")
                               .style("opacity", .2)
-      console.log('median');
       svg.selectAll("circle").filter(function(d) {
         var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
           (d.Median >= medianSalarySelected) &&
@@ -596,8 +531,6 @@ d3.csv("recent-grads.csv").then(function(data) {
             (majorCategoriesSelected.length == 0 || majorCategoriesSelected.includes(d.Major_category)));
           return isHighlighted;
         })
-        console.log(filteredData);
-
       filterMajorSizeGraph(filteredData);
     })
 
@@ -640,8 +573,6 @@ d3.csv("recent-grads.csv").then(function(data) {
             (majorCategoriesSelected.length == 0 || majorCategoriesSelected.includes(d.Major_category)));
           return isHighlighted;
         })
-        console.log(filteredData);
-
       filterMajorSizeGraph(filteredData);
     })
 
@@ -737,51 +668,7 @@ d3.csv("recent-grads.csv").then(function(data) {
         console.log(filteredData);
 
       filterMajorSizeGraph(filteredData);
-    })
-
-    //major size bar graph below
-    console.log('bargraph');
-    // var x = d3.scaleBand()
-    //           .range([0, width])
-    //           .padding(0.1);
-    // var y = d3.scaleLinear()
-    //           .range([height, 0]);
-            
-    // var filteredData = data;
-    //   // format the data
-    //   d3.selectAll('input').on("change", function() {
-    //     var filteredData = data.filter(function(d) {
-    //         var isHighlighted = ((d.Total >= majorSizeSelectedMin && d.Total <= majorSizeSelectedMax) &&
-    //           (d.Median >= medianSalarySelected) &&
-    //           (d.ShareWomen >= shareWomenSelectedMin && d.ShareWomen <= shareWomenSelectedMax) &&
-    //           (majorCategoriesSelected.length == 0 || majorCategoriesSelected.includes(d.Major_category)));
-    //           // we want if the current data point's category matches *any* of the categories in the array
-    //         return (isHighlighted)
-    //       })
-    //   })
-
-    //   filteredData.forEach(function(d) {
-    //     d.ShareWomen = +d.ShareWomen;
-    //   });
-    //   // Scale the range of the data in the domains
-    //   x.domain(data.map(function(d) { return d.Major; }));
-    //   y.domain([0, d3.max(data, function(d) { return d.Total; })]);
-    //   // append the rectangles for the bar chart
-    //   majorSizeSvg.selectAll(".bar")
-    //       .data(data)
-    //     .enter().append("rect")
-    //       .attr("class", "bar")
-    //       .attr("x", function(d) { return x(d.Major); })
-    //       .attr("width", x.bandwidth())
-    //       .attr("y", function(d) { return y(d.Total); })
-    //       .attr("height", function(d) { return height - y(d.Total); });
-    //   // add the x Axis
-    //   majorSizeSvg.append("g")
-    //       .attr("transform", "translate(0," + height + ")")
-    //       .call(d3.axisBottom(x));
-    //   // add the y Axis
-    //   majorSizeSvg.append("g")
-    //       .call(d3.axisLeft(y));
+    })   
     })
 
 </script>
