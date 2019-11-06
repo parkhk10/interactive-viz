@@ -89,7 +89,8 @@
             .attr("x", function(d) { return x(d.Major); })
             .attr("width", x.bandwidth())
             .attr("y", function(d) { return y(d.Total); })
-            .attr("height", function(d) { return height - y(d.Total); });
+            .attr("height", function(d) { return height - y(d.Total); })
+            .attr("fill", function (d){ return colorMajorDict[d.Major_category]; });
         // add the x Axis
         majorSizeSvg.append("g")
             .attr("transform", "translate(0," + height + ")")
@@ -137,7 +138,8 @@
             .attr("x", function(d) { return salX(d.Major); })
             .attr("width", salX.bandwidth())
             .attr("y", function(d) { return salY(parseFloat(d.Median)); })
-            .attr("height", function(d) { return height - salY(d.Median); });
+            .attr("height", function(d) { return height - salY(d.Median); })
+            .attr("fill", function (d){ return colorMajorDict[d.Major_category]; });
         // add the x Axis
         medianSalarySvg.append("g")
             .attr("transform", "translate(0," + height + ")")
@@ -189,7 +191,8 @@
             .attr("width", shareX.bandwidth())
             .attr("y", function(d) { console.log("major: " + d.Major + " SW: " + shareY(d.ShareWomen));
                                       return shareY(parseFloat(d.ShareWomen)); })
-            .attr("height", function(d) { return parseFloat(height) - shareY(parseFloat(d.ShareWomen)); });
+            .attr("height", function(d) { return parseFloat(height) - shareY(parseFloat(d.ShareWomen)); })
+            .attr("fill", function (d){ return colorMajorDict[d.Major_category]; });
         // add the x Axis
         shareWomenSvg.append("g")
             .attr("transform", "translate(0," + height + ")")
@@ -288,7 +291,7 @@ d3.csv("recent-grads.csv").then(function(data) {
   var x = d3.scaleLinear()
     .domain([0, .22])
     .range([ 0, width ]);
-  svg.append("g")
+  var xAxis = svg.append("g")
     .attr("transform", "translate(0," + height + ")")
     .call(d3.axisBottom(x));
 
@@ -337,7 +340,7 @@ d3.csv("recent-grads.csv").then(function(data) {
             div.transition()		
                 .duration(200)		
                 .style("opacity", .9);		
-            div.html(d.Major + "<br/> <br />"  + "Median Salary: " + d.Median)	
+            div.html("<strong>" + d.Major + "</strong>" + "<br/> <br />"  + "Median Salary: " + d.Median + "<br />Share Women: " + d.ShareWomen + "<br/>Major Size: " + d.Total)	
                 .style("left", (d3.event.pageX) + "px")		
                 .style("top", (d3.event.pageY - 28) + "px");	
             })
@@ -350,6 +353,60 @@ d3.csv("recent-grads.csv").then(function(data) {
                 .duration(500)		
                 .style("opacity", 0);
         })
+
+    // //// Brushing and Zooming
+    // // Add a clipPath: everything out of this area won't be drawn.
+    // var clip = svg.append("defs").append("svg:clipPath")
+    //     .attr("id", "clip")
+    //     .append("svg:rect")
+    //     .attr("width", width )
+    //     .attr("height", height )
+    //     .attr("x", 0)
+    //     .attr("y", 0);
+
+    // // Add brushing
+    // var brush = d3.brushX()                 // Add the brush feature using the d3.brush function
+    //   .extent( [ [0,0], [width,height] ] ) // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
+    //   .on("end", updateChart) // Each time the brush selection changes, trigger the 'updateChart' function
+    
+    // // Create the scatter variable: where both the circles and the brush take place
+    // var scatter = svg.append("g")
+    //   .attr("clip-path", "url(#clip)")
+
+    // // Add the brushing
+    // scatter
+    //     .append("g")
+    //       .attr("class", "brush")
+    //       .call(brush);
+
+    //   // A function that set idleTimeOut to null
+    //   var idleTimeout
+    //   function idled() { idleTimeout = null; }
+
+    //   // A function that update the chart for given boundaries
+    //   function updateChart() {
+    //     extent = d3.event.selection
+
+    //     // If no selection, back to initial coordinate. Otherwise, update X axis domain
+    //     if(!extent){
+    //       if (!idleTimeout) return idleTimeout = setTimeout(idled, 350); // This allows to wait a little bit
+    //       x.domain([0,.22])
+    //     }else{
+    //       x.domain([ x.invert(extent[0]), x.invert(extent[1]) ])
+    //       scatter.select(".brush").call(brush.move, null) // This remove the grey brush area as soon as the selection has been done
+    //     }
+
+    //     // Update axis and circle position
+    //     xAxis.transition().duration(1000).call(d3.axisBottom(x))
+    //     scatter
+    //       .selectAll("circle")
+    //       .transition().duration(1000)
+    //       .attr("cx", function (d) { return x(d.Unemployment_rate); } )
+    //       .attr("cy", function (d) { return y(d.Median); } )
+    //       .attr("r", 10);
+    //     }
+
+
   
     d3.selectAll("[name=major-size-min]").on("change", function() {
       majorSizeSelectedMin = parseInt(this.value);
