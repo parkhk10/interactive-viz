@@ -71,3 +71,10 @@ div.tooltip {
 #max-salary {
   margin-left: 60px;
 }
+#bar-graphs{
+  margin-left: 50px;
+}
+
+  #top-graphs {
+    display: flex;
+  }
