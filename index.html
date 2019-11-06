@@ -23,18 +23,19 @@
     <div id="input-panel">
       <div id="major-size-input">
           <label for="volume">Major Size: </label>
-          <input id='major-size-min' placeholder="Min" defaultValue='' name="major-size-min" type="number" onchange="">
-          <input id='major-size-max' placeholder="Max" defaultValue='' name="major-size-max" type="number" >
+          <input id='major-size-min' placeholder="Min (e.g. 2000)" defaultValue='' name="major-size-min" type="number" onchange="">
+          <input id='major-size-max' placeholder="Max (e.g. 15000)" defaultValue='' name="major-size-max" type="number" >
       </div>
       <div id="median-salary-input">
           <label for="volume">Median Salary: </label>
-          <b>0</b><input id='median-salary-min' name="median-salary-min" type="range" min="0" max="110000" value="0" class="slider" step="10" onchange="updateMedianSalaryInput(this.value)"><b>110000</b>
+          <input id='median-salary-min' name="median-salary-min" type="range" min="0" max="110000" value="0" class="slider" step="10" onchange="updateMedianSalaryInput(this.value)">
           <input type="number" id="textMedianSalary" value="" disabled>
+          <div><span><div><b id="min-salary">0</b></div><b id="max-salary">110000</b></span></div>
       </div>
       <div id="share-women-input">
           <label for="volume">Share Women</label>
-          <input id='share-women-min' name="share-women-min" type="number" onchange="">
-          <input id='share-women-max' name="share-women-max" type="number" >
+          <input id='share-women-min' placeholder="Min (e.g. 0.1)" name="share-women-min" type="number" onchange="">
+          <input id='share-women-max' placeholder="Max (e.g. 0.75)" name="share-women-max" type="number" >
       </div>
       <p class='filter-name'>Major categories:</p>
       <div class="custom-control custom-checkbox" id="filter-box">
