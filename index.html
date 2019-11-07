@@ -22,18 +22,18 @@
     <div id="my_dataviz"></div>
     <div id="input-panel">
       <div id="major-size-input">
-          <label for="volume">Major Size: </label>
+          <label for="volume"><b>Major Size: </b></label>
           <input id='major-size-min' placeholder="Min (e.g. 2000)" defaultValue='' name="major-size-min" type="number" onchange="">
           <input id='major-size-max' placeholder="Max (e.g. 15000)" defaultValue='' name="major-size-max" type="number" >
       </div>
       <div id="median-salary-input">
-        <label for="volume">Median Salary: </label>
+        <label for="volume"><b>Median Salary: </b> at least</label>
         <input id='median-salary-min' name="median-salary-min" type="range" min="0" max="110000" value="0" class="slider" step="10" onchange="updateMedianSalaryInput(this.value)">
         <input type="number" id="textMedianSalary" value="" disabled>
           <div id="range"><b id='min0'>0</b><b id='max110000'>110000</b></div>
       </div>
       <div id="share-women-input">
-          <label for="volume">Share Women</label>
+          <label for="volume"><b>Share Women</b></label>
           <input id='share-women-min' placeholder="Min (e.g. 0.1)" name="share-women-min" type="number" onchange="">
           <input id='share-women-max' placeholder="Max (e.g. 0.75)" name="share-women-max" type="number" >
       </div>
