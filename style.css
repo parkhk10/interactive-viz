@@ -28,14 +28,21 @@ div.tooltip {
     display: flex;
     padding-left: 80px;
     padding-right: 80px;
+    justify-content: center;
   }
 
   #input-panel {
-    border: 1px solid black;
     margin: 20px;
     padding: 15px;
     margin-left: 100px;
     font-size: 13px;
+    max-width:50%;
+    background: #faf7f2;
+    margin: 14px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    line-height: 24px;
   }
 
   #my_dataviz {
@@ -48,7 +55,7 @@ div.tooltip {
 
   #textMedianSalary {
     /* color: #F8F1E5; */
-    background-color: #F8F1E5;
+    background-color: #faf7f2;
     border: none;
   }
 
@@ -60,7 +67,7 @@ div.tooltip {
     margin-right: 6px;
     color: #999999;
     position: relative;
-    z-index: 1;
+    /* z-index: 1; */
   }
 
   .dot {
@@ -120,11 +127,12 @@ div.tooltip {
     border-radius: 6px;
     padding: 7px 7px;
     position: absolute;
-    z-index: 1;
+    z-index: 2;
     top: 150%;
     left: 50%;
     margin-left: -100px;
     font-family: 'Raleway', sans-serif;	
+    line-height: initial;
   }
   
   .info-tooltip .tooltiptext::after {
