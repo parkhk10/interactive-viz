@@ -52,6 +52,15 @@ div.tooltip {
     border: none;
   }
 
+  #major-size-label {
+    margin-right: 1px;
+  }
+
+  i {
+    margin-right: 6px;
+    color: #999999;
+  }
+
   .dot {
     height: 10px!important;
     width: 10px;
@@ -92,4 +101,41 @@ div.tooltip {
 
   #min0 {
     float: left;
+  }
+
+  /* Tooltip for each parameter */
+  .info-tooltip {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .info-tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: left;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: 150%;
+    left: 50%;
+    margin-left: -60px;
+    font-family: 'Raleway', sans-serif;	
+  }
+  
+  .info-tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent black transparent;
+  }
+  
+  .info-tooltip:hover .tooltiptext {
+    visibility: visible;
   }
