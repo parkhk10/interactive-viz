@@ -17,7 +17,12 @@
     <header>
       <h2>College Major Explorer</h2>
       <h5>by Anna Deng and Keren Park</h5>
-      <p>Choosing your college major can be hard. This explorer helps you investigate different majors' characteristics and job prospects to facilitate the major decision process</p>
+      <p>
+        Choosing your college major can be hard. This explorer helps you investigate different majors' characteristics and job prospects to facilitate the major decision process.
+      </p>
+      <p id="soft-description">
+          N.B. - "Recent grads" are defined as those under age 28 or roughly within five years of graduation on a normal schedule.
+      </p>
     </header>
   <div id='container'>
     <div id="my_dataviz"></div>
@@ -33,17 +38,35 @@
           <input id='major-size-max' placeholder="Max (e.g. 15000)" defaultValue='' name="major-size-max" type="number" >
       </div>
       <div id="median-salary-input">
-        <label for="volume"><b>Median Salary: </b> at least</label>
+        <label for="volume"><b>Median Salary</b></label>
+        <i class="fas fa-info-circle info-tooltip">
+            <span class="tooltiptext">
+              The median salary of recent grads from 2010-2012 in a given major. 
+              Earnings figures are based on people employed full-time (35 hours or more), year-round (50 weeks or more) with positive earnings. 
+              Earnings also exclude those who are in school or who have graduate degrees.
+            </span>
+          </i>
+        <label>at least</label>
         <input id='median-salary-min' name="median-salary-min" type="range" min="0" max="110000" value="0" class="slider" step="10" onchange="updateMedianSalaryInput(this.value)">
         <input type="number" id="textMedianSalary" value="" disabled>
-          <div id="range"><b id='min0'>0</b><b id='max110000'>110000</b></div>
+          <div id="range"><b id='min0'>$0</b><b id='max110000'>$110,000</b></div>
       </div>
       <div id="share-women-input">
           <label for="volume"><b>Share Women</b></label>
+          <i class="fas fa-info-circle info-tooltip">
+              <span class="tooltiptext">
+                The proportion (decimal) of female recent grads out of the total number of recent grads (major size) for each major.
+              </span>
+            </i>
           <input id='share-women-min' placeholder="Min (e.g. 0.1)" name="share-women-min" type="number" onchange="">
           <input id='share-women-max' placeholder="Max (e.g. 0.75)" name="share-women-max" type="number" >
       </div>
-      <p class='filter-name'>Major categories:</p>
+      <label class='filter-name'><b>Major categories</b></label>
+      <i class="fas fa-info-circle info-tooltip">
+          <span class="tooltiptext">
+            Category of major defined by <a href="https://cew.georgetown.edu/cew-reports/whats-it-worth-the-economic-value-of-college-majors/" target="_blank">Carnevale et al</a>.
+          </span>
+        </i>
       <div class="custom-control custom-checkbox" id="filter-box">
       </div>
     </div>

@@ -59,6 +59,8 @@ div.tooltip {
   i {
     margin-right: 6px;
     color: #999999;
+    position: relative;
+    z-index: 1;
   }
 
   .dot {
@@ -91,7 +93,7 @@ div.tooltip {
   #range{
     height: 20px;
     width: 157px;
-    margin-left: 142px;
+    margin-left: 162px;
     margin-top: -10px;
   }
 
@@ -138,4 +140,26 @@ div.tooltip {
   
   .info-tooltip:hover .tooltiptext {
     visibility: visible;
+  }
+
+  #soft-description {
+    color: #999999;
+    display: inline-block;
+    margin-top:-15px;
+  }
+
+  #major-size-input {
+    margin-bottom: 10px;
+  }
+
+  #median-salary-input {
+    margin-bottom: 10px;
+  }
+
+  #share-women-input {
+    margin-bottom: 10px;
+  }
+
+  #filter-box {
+    margin-top: -10px;
   }
