@@ -9,6 +9,7 @@
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=DM+Sans|Raleway:400,500,600&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/ae45969250.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
@@ -22,7 +23,12 @@
     <div id="my_dataviz"></div>
     <div id="input-panel">
       <div id="major-size-input">
-          <label for="volume"><b>Major Size: </b></label>
+          <label id="major-size-label" for="volume"><b>Major Size</b></label>
+          <i class="fas fa-info-circle info-tooltip">
+            <span class="tooltiptext">
+              The average number of recent grads (those under age 28 or roughly within five years of graduation on a normal schedule) from 2010-2012 in a given major
+            </span>
+          </i>
           <input id='major-size-min' placeholder="Min (e.g. 2000)" defaultValue='' name="major-size-min" type="number" onchange="">
           <input id='major-size-max' placeholder="Max (e.g. 15000)" defaultValue='' name="major-size-max" type="number" >
       </div>
